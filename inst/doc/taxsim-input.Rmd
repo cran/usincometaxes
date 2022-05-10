@@ -1,0 +1,141 @@
+---
+title: "Description of Input Columns"
+author: "Shane Orr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Description of Input Columns}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+`usincometaxes` calculates taxes through the function `taxsim_calculate_taxes(.data)`. The key parameter in this function is `.data`, which is a data frame containing the information used to calculate income taxes. Each column in `.data` contains financial or household information and maps to the variables in [TAXSIM 35](http://taxsim.nber.org/taxsim35/) . All variables in TAXSIM 35 can be used in `usincometaxes`. 
+
+The column names in `usincometaxes` are the same as TAXSIM 35's variable names. The data types for inputs are also the same as what is noted in the [TAXSIM 35 documentation](http://taxsim.nber.org/taxsim35/), except for two exceptions.
+
+1. For filing status, `mstat`, users can either enter a description of the filing status (shown below) or the number required by TAXSIM.
+2. For state, `state`, users can enter the two letter state abbreviation or the SOI code, as required by TAXSIM.
+
+`usincometaxes` will convert descriptions of filing statuses or state abbreviations to the numbers required by TAXSIM.
+
+`.data` can contain columns beyond those listed below. The additional columns will be ignored.
+
+## Required columns
+
+* **taxsimid**: An arbitrary, non-negative, *whole number* greater than zero. This number links the results from TAXSIM
+    35 to the original input data frame specified with `.data`.
+<br>       
+* **year**: Tax year ending Dec 31 (4 digits between 1960 and 2023). State must be zero if
+      year is before 1977 or after 2023.
+<br>          
+* **mstat**: Filing status of tax unit. One of the following: 
+    * "single" or 1 for single;
+    * "married, jointly" or 2 for married, filing jointly; 
+    * "married, separately" or 6 for married, filing separately;
+    * "dependent child" or 8 for dependent, usually a child with income; or
+    * "head of household" or 1 for head of household filing status.
+<br>   
+* **state**: State two letter abbreviation ('NC'), full state name ('North Carolina') or [state SOI code](https://users.nber.org/~taxsim/statesoi.html) (32). 
+    If state income taxes are not needed,
+    either label as "No State" or remove this variable. State income tax information is only available from 1977 to 2023.
+
+## Optional columns
+
+* **page**: Age of primary taxpayer as of December 31st of tax year. Taxpayer age variables
+      determine eligibility for additional standard deductions, personal exemption, EITC and AMT exclusion.
+<br>    
+* **sage**: Age of spouse as of December 31st of tax year (or 0 / NA if no spouse).
+<br>    
+* **depx**: Total number of dependents (part of personal exemption calculation).
+<br>    
+* **age1**: Age of youngest dependent. Used for EITC, CTC and CCC. For 1991+ code students between 20 and 23 as 19 to get the EITC calculation correct. Code infants as "1". If age1 is not present depx is used for the number of child eligible for the EIC, CTC and CDCC.
+<br>   
+* **age2**: Age of 2nd youngest dependent.
+<br>   
+* **age3**: Age of 3rd youngest dependent.
+
+Ages of any additional dependents are not relevant for the tax calculation, but all dependents should be included in \code{depx}.
+
+**Incomes**
+
+* **pwages**: Wage and salary income of Primary Taxpayer (exclude QBI).
+<br>   
+* **swages**: Wage and salary income of Spouse (include self-employment but no QBI). Must
+      be zero or the column should not exist for non-joint returns.
+<br>   
+* **psemp**: Self-employment income of Primary Taxpayer (exclude QBI).
+<br>   
+* **ssemp**: Self-empoyment income of Spouse.
+<br>  
+* **dividends**: Dividend income (qualified dividends only for 2003 on).
+<br>   
+* **intrec**: Interest income received (+/-).
+<br>   
+* **stcg**: Short Term Capital Gains or losses (+/-).
+<br>   
+* **ltcg**: Long Term Capital Gains or losses (+/-).
+<br>   
+* **otherprop**: Other property income subject to NIIT, including: 
+    * Unearned or limited partnership and passive S-Corp profits; 
+    * Rent not eligible for QBI deduction;
+    * Non-qualified dividends; 
+    * Other income or loss not otherwise enumerated here.
+<br>   
+* **nonprop**: Other non-property income not subject to Medicare NIIT such as:
+    * Alimony; 
+    * Nonwage fellowships; 
+    * State income tax refunds (itemizers only);
+    * Alimony paid; 
+    * Keogh and IRA contributions; 
+    * Foreign income exclusion; and 
+    * NOLs.
+<br>   
+* **pensions**: Taxable Pensions and IRA distributions.
+<br>   
+* **ggsi**: Gross Social Security Benefits.
+<br>   
+* **pui**: Unemployment Compensation received - primary taxpayer.
+<br>   
+* **ui**: Unemployment compensation received - secondary taxpayer. The split is relevant only 2020-2021.
+<br>   
+* **transfers**: Other non-taxable transfer income such as: 
+    * Welfare; 
+    * Workers comp;
+    * Veterans benefits; and 
+    * Child support that would affect eligibility for state property tax rebates but would not be taxable at the federal level.
+<br>   
+* **rentpaid**: Rent paid (used only for calculating state property tax rebates).
+<br>   
+* **proptax**: Real Estate taxes paid. This is a preference for the AMT and is is also
+      used to calculate state property tax rebates.
+<br>   
+* **otheritem**: Other Itemized deductions that are a preference for the Alternative Minimum Tax. These would include: 
+    * Other state and local taxes (line 8 of Schedule A) plus local income tax; 
+    * Preference share of medical expenses; and 
+    * Miscellaneous (line 27).
+<br>   
+* **childcare**: Child care expenses.
+<br>   
+
+**The following are for the TCJA Business Tax Deduction.**
+
+* **scorp**: Active S-Corp income (is SSTB).
+<br>  
+* **pbusinc**: Primary Taxpayer's Qualified Business Income (QBI) subject to a
+      preferential rate without phaseout and assuming sufficient wages paid or capital to be eligible
+      for the full deduction. Subject to SECA and Medicare additional Earnings Tax.
+<br>   
+* **pprofinc**: Primary Taxpayer's Specialized Service Trade or Business service
+      (SSTB) with a preferential rate subject to claw-back. Subject to SECA and Medicare Additional Earnings Tax.
+<br>   
+* **sbusinc**: Spouse's QBI. Must be zero for non-joint returns, or the
+      column should not exist.
+<br>   
+* **sprofinc**: Spouse's SSTB. Must be zero for non-joint returns, or the
+      column should not exist.

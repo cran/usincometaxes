@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Shane Orr" />
+
+
+<title>Description of Output Columns</title>
+
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Description of Output Columns</h1>
+<h4 class="author">Shane Orr</h4>
+
+
+
+<p><code>usincometaxes</code> returns tax results as a data frame, with each column representing tax information such as federal and state income taxes owed or other line items. Each row corresponds to a row in the input data frame. Users can specify the amount of output with the <code>return_all_information</code> parameter in <code>taxsim_calculate_taxes()</code>. Setting <code>return_all_information</code> to <code>TRUE</code> returns a data frame with 42 columns of detailed tax information. <code>FALSE</code> returns 9 columns of key information. <code>FALSE</code> leads to quicker calculations and downloads from the NBER’s servers.</p>
+<p><code>usincometaxes</code> provides the same output as <a href="http://taxsim.nber.org/taxsim35/">TAXSIM 35</a>. Setting <code>return_all_information</code> to <code>FALSE</code> equates to setting <code>idtl</code> to 0 in TAXSIM, while <code>TRUE</code> corresponds to 2.</p>
+<div id="standard-columns" class="section level2">
+<h2>Standard columns</h2>
+<p>Returned columns when <code>return_all_information</code> = <code>FALSE</code>.</p>
+<ul>
+<li><strong>taxsimid</strong>: ID number from the input data set, so users can match the tax information with the input data set.</li>
+<li><strong>fiitax</strong>: Federal income tax liability including capital gains rates, surtaxes, AMT and refundable and non-refundable credits.</li>
+<li><strong>siitax</strong>: State income tax liability.</li>
+<li><strong>fica</strong>: Total FICA taxes, including the employers and employees share.</li>
+<li><strong>frate</strong>: Marginal federal tax rate.</li>
+<li><strong>srate</strong>: Marginal state tax rate, if a state was identified.</li>
+<li><strong>ficar</strong>: FICA rate.</li>
+<li><strong>tfica</strong>: taxpayer liability for FICA. Marginal rates are with respect to wage income unless another rate is requested. If detailed intermediate results are requested, the following 35 columns of data are added:.</li>
+</ul>
+</div>
+<div id="detailed-columns" class="section level2">
+<h2>Detailed columns</h2>
+<p>Returned columns when <code>return_all_information</code> = <code>TRUE</code>.</p>
+<ul>
+<li>All standard columns. <br></li>
+<li><strong>v10_federal_agi</strong>: Federal AGI</li>
+<li><strong>v11_ui_agi</strong>: UI in AGI</li>
+<li><strong>v12_soc_sec_agi</strong>: Social Security in AGI</li>
+<li><strong>v13_zero_bracket_amount</strong>: Zero Bracket Amount</li>
+<li><strong>v14_personal_exemptions</strong>: Personal Exemptions</li>
+<li><strong>v15_exemption_phaseout</strong>: Exemption Phaseout</li>
+<li><strong>v16_deduction_phaseout</strong>: Deduction Phaseout</li>
+<li><strong>v17_itemized_deductions</strong>: Itemized Deductions Allowed (Zero for non-itemizers)</li>
+<li><strong>v18_federal_taxable_income</strong>: Federal Taxable Income</li>
+<li><strong>v19_tax_on_taxable_income</strong>: Tax on Taxable Income (no special capital gains rates)</li>
+<li><strong>v20_exemption_surtax</strong>: Exemption Surtax</li>
+<li><strong>v21_general_tax_credit</strong>: General Tax Credit</li>
+<li><strong>v22_child_tax_credit_adjusted</strong>: Child Tax Credit (as adjusted)</li>
+<li><strong>v23_child_tax_credit_refundable</strong>: Additional Child Tax Credit (refundable)</li>
+<li><strong>v24_child_care_credit</strong>: Child Care Credit</li>
+<li><strong>v25_eitc</strong>: Earned Income Credit (total federal)</li>
+<li><strong>v26_amt_income</strong>: Income for the Alternative Minimum Tax</li>
+<li><strong>v27_amt_liability</strong>: AMT Liability after credit for regular tax and other allowed credits.</li>
+<li><strong>v28_fed_income_tax_before_credit</strong>:Federal Income Tax Before Credits (includes special treatment of Capital gains, exemption surtax (1988-1996) and 15% rate phaseout (1988-1990) but not AMT)</li>
+<li><strong>v29_fica</strong>: FICA</li>
+</ul>
+<p>The following columns are zero if no state is specified:</p>
+<ul>
+<li><strong>v30_state_household_income</strong>: State Household Income (imputation for property tax credit)</li>
+<li><strong>v31_state_rent_expense</strong>: State Rent Expense (imputation for property tax credit)</li>
+<li><strong>v32_state_agi</strong>: State AGI</li>
+<li><strong>v33_state_exemption_amount</strong>: State Exemption amount</li>
+<li><strong>v34_state_std_deduction_amount</strong>: State Standard Deduction</li>
+<li><strong>v35_state_itemized_deduction</strong>: State Itemized Deductions</li>
+<li><strong>v36_state_taxable_income</strong>: State Taxable Income</li>
+<li><strong>v37_state_property_tax_credit</strong>: State Property Tax Credit</li>
+<li><strong>v38_state_child_care_credit</strong>: State Child Care Credit</li>
+<li><strong>v39_state_eitc</strong>: State EIC</li>
+<li><strong>v40_state_total_credits</strong>: State Total Credits</li>
+<li><strong>v41_state_bracket_rate</strong>: State Bracket Rate</li>
+</ul>
+<p>Additional federal results:</p>
+<ul>
+<li><strong>v42_self_emp_income</strong>: Earned Self-Employment Income for FICA</li>
+<li><strong>v43_medicare_tax_unearned_income</strong>: Medicare Tax on Unearned Income</li>
+<li><strong>v44_medicare_tax_earned_income</strong>: Medicare Tax on Earned Income</li>
+<li><strong>v45_cares_recovery_rebate</strong>: CARES act Recovery Rebates</li>
+</ul>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
