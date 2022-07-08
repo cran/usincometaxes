@@ -79,3 +79,34 @@ test_that("All states work", {
   expect_equal(nrow(taxsim_output), 50)
 
 })
+
+test_that("All interface options return same values", {
+
+  # remove MA from test for now, because it is giving odd results from the server for v36_state_taxable_income
+  states <- state.abb[-21]
+
+  id_nums <- seq(1, length(states))
+
+  taxsim_input <- data.frame(
+    taxsimid = id_nums,
+    mstat = 2,
+    year = 2018,
+    pwages = 50000,
+    state = states
+  )
+
+  ssh_results <- taxsim_calculate_taxes(taxsim_input,
+                                        return_all_information = T,
+                                        interface = 'ssh')
+
+  http_results <- taxsim_calculate_taxes(taxsim_input,
+                                         return_all_information = T,
+                                         interface = 'http')
+
+  wasm_results <- taxsim_calculate_taxes(taxsim_input,
+                                         return_all_information = T,
+                                         interface = 'wasm')
+
+  expect_equal(ssh_results, http_results)
+  expect_equal(ssh_results, wasm_results)
+})

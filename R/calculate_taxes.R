@@ -42,9 +42,9 @@ create_dataset_for_taxsim <- function(.data) {
   cols_in_taxsim_and_df <- intersect(cols, taxsim_cols())
   .data <- .data[cols_in_taxsim_and_df]
 
-  # return an error is any required columns have missing values (except for state)
+  # return an error if any required columns have missing values (except for state)
   for (col in c('taxsim', 'year', 'mstat')) {
-    if (any(is.na(.data[[col]]))) stop(paste0("No", col, "values can be NA."))
+    if (any(is.na(.data[[col]]))) stop(paste0("No", col, "values can be NA."), call. = FALSE)
   }
 
   # convert all NA values to 0 for non-required items
@@ -107,6 +107,17 @@ create_dataset_for_taxsim <- function(.data) {
 #' @param return_all_information Boolean (TRUE or FALSE). Whether to return all information from TAXSIM (TRUE),
 #'     or only key information (FALSE). Returning all information returns 42 columns of output, while only
 #'     returning key information returns 9 columns. It is faster to download results with only key information.
+#' @param interface String indicating which NBER TAXSIM interface to use. Should
+#'   be one of: "wasm", "ssh", or "http".
+#'
+#'   - "wasm" uses a compiled WebAssembly version of the TAXSIM app. Details
+#'   about generating the wasm file can be found here:
+#'   https://github.com/tmm1/taxsim.js
+#'   - "ssh" uses SSH to connect to taxsimssh.nber.org. Your system must already
+#'   have SSH installed.
+#'   - "http" uses CURL to connect to
+#'   https://taxsim.nber.org/uptest/webfile.cgi. 'http" does not work for dataset with more than
+#'        1,000 rows.
 #'
 #' @section Formatting your data:
 #'
@@ -168,17 +179,17 @@ create_dataset_for_taxsim <- function(.data) {
 #' Journal of Policy Analysis and Management vol 12 no 1, Winter 1993, pages 189-194.
 #'
 #' @export
-taxsim_calculate_taxes <- function(.data, marginal_tax_rates = 'Wages', return_all_information = FALSE) {
+taxsim_calculate_taxes <- function(.data, marginal_tax_rates = 'Wages', return_all_information = FALSE, interface = "wasm") {
+
+  # check parameter options
+  # must change this function if parameters are added
+  check_parameters(.data, marginal_tax_rates, return_all_information, interface)
 
   # save input ID numbers as object, so we can make sure the output ID numbers are the same
   input_s <- .data$taxsimid
 
   # create data set to send to taxsim
   .data <- create_dataset_for_taxsim(.data)
-
-  # check parameter options
-  # must change this function if parameters are added
-  check_parameters(.data, return_all_information)
 
   # add 2 to column if we need all columns, otherwise add 0 for only the default columns
   idtl <- if (return_all_information) 2 else 0
@@ -192,27 +203,47 @@ taxsim_calculate_taxes <- function(.data, marginal_tax_rates = 'Wages', return_a
 
   # save csv file of data set to a temp folder
   to_taxsim_tmp_filename <- tempfile(pattern = 'upload_', fileext = ".csv")
-  vroom::vroom_write(.data, to_taxsim_tmp_filename, delim = ",", progress = FALSE)
-
   from_taxsim_tmp_filename <- tempfile(pattern = 'download_', fileext = ".csv")
 
-  # try uploading and downloading via ssh
   stop_error_message <- paste0(
-  "There was a problem in trying to retrieve your data.\n",
-  "Either we could not connect to the TAXSIM server or your data is not in the proper format.\n",
-  "You can try manually uploading the data to TAXSIM as an avenue of troubleshooting.\n",
-  "See the following address for more information: https://www.shaneorr.io/r/usincometaxes/articles/send-data-to-taxsim.html"
+    paste0("There was a problem in calculating the taxes using '", interface, "'.\n"),
+    "Please try a different `interface` option.\n",
+    "Alternatively, you can try manually uploading the data to TAXSIM as an avenue of troubleshooting.\n",
+    "See the following address for more information: https://www.shaneorr.io/r/usincometaxes/articles/send-data-to-taxsim.html"
   )
 
-  std_error_filename <- tempfile(pattern = 'std_error_', fileext = ".txt")
-  known_hosts_file <- paste0(tempdir(), '/known_hosts')
+  if (interface == "ssh") {
 
-  from_taxsim <- tryCatch(
-    error = function(cnd) stop(stop_error_message, call. = FALSE),
-    import_data_ssh(to_taxsim_tmp_filename, from_taxsim_tmp_filename, std_error_filename, known_hosts_file, idtl)
-  )
+    vroom::vroom_write(.data, to_taxsim_tmp_filename, delim = ",", progress = FALSE)
 
-  message("Connected to TAXSIM server and downloaded tax data.")
+    # try uploading and downloading via ssh
+    std_error_filename <- tempfile(pattern = 'std_error_', fileext = ".txt")
+    known_hosts_file <- paste0(tempdir(), '/known_hosts')
+
+    from_taxsim <- tryCatch(
+      error = function(cnd) stop(stop_error_message, call. = FALSE),
+      import_data_ssh(to_taxsim_tmp_filename, from_taxsim_tmp_filename, std_error_filename, known_hosts_file, idtl)
+    )
+
+  } else if (interface == "http") {
+
+    from_taxsim <- tryCatch(
+      error = function(cnd) stop(stop_error_message, call. = FALSE),
+      calculate_taxes_http(.data, to_taxsim_tmp_filename)
+    )
+
+  } else if (interface == "wasm") {
+
+    from_taxsim <- tryCatch(
+      error = function(cnd) stop(stop_error_message, call. = FALSE),
+      calculate_taxes_wasm(.data)
+    )
+
+  } else {
+    stop("Invalid value for `interface` argument. Must be one of 'wasm', 'ssh', or 'http'.", call. = FALSE)
+  }
+
+
 
   # add column names to the TAXSIM columns that do not have names
   from_taxsim <- clean_from_taxsim(from_taxsim)

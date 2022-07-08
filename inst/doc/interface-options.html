@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Shane Orr" />
+
+
+<title>Interface Options for Calculating Taxes</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Interface Options for Calculating
+Taxes</h1>
+<h4 class="author">Shane Orr</h4>
+
+
+
+<p>You calculate taxes with the <code>taxsim_calculate_taxes()</code>
+function. This function contains an <code>interface</code> parameter
+where you can specify how you want to interact with the NBER’s <a href="https://users.nber.org/~taxsim/taxsim35/">TAXSIM 35</a> program.
+All options use TAXSIM 35, they only differ in how you access the
+program. The <code>interface</code> parameter has three options: (1)
+‘wasm’, (2) ‘ssh’, and (3) ‘http’. All three options are outlined
+below.</p>
+<div id="wasm" class="section level3">
+<h3>1. ‘wasm’</h3>
+<p>‘wasm’, an abbreviation for WebAssembly, is the only option that runs
+the calculations locally on your computer. You do not have to connect to
+the TAXSIM 35 servers. For this reason, it is faster and more robust
+than the other methods: you don’t have to connect to a server, worry
+about firewalls, etc. The output <em>should</em> be the same as the
+options that connect to the TAXSIM 35 server directly. But, keep reading
+for why this might not always be the case.</p>
+<p>With ‘wasm’, the calculations are conducted by JavaScript /
+WebAssembly files that are part of the package. In other words, you get
+the files when you install the package. Interacting with the files is
+abstracted away so all you see are the tax calculations.</p>
+<p>The JavaScript / WebAssembly tooling comes from Aman Gupta Karmani’s
+great work that you can find in this GitHub repo: <a href="https://github.com/tmm1/taxsim.js" class="uri">https://github.com/tmm1/taxsim.js</a>. And while you’re
+checking out his work, don’t overlook his tax calculator web app at <a href="https://taxsim.app">taxsim.app</a>.</p>
+<p>The JavaScript / WebAssembly files are updated soon after the NBER
+updates the Fortran code that runs TAXSIM 35. We will then incorporate
+these updated JavaScript / WebAssembly files into a new version of
+<code>usincometaxes</code>. A benefit of this approach is that a given
+version of <code>usincometaxes</code> will always produce the same
+results when using ‘wasm’. This holds because a given version of
+<code>usincometaxes</code> will always use the exact same JavaScript /
+WebAssembly files to calculate taxes. This might not always be true with
+‘ssh’ or ‘http’ since the calculations are conducted on the NBER’s
+servers. Changes to the NBER’s TASXIM program running on these servers
+will not correlate with version changes to <code>usincometaxes</code>.
+Therefore, ‘wasm’ is a great option if reproducibility is paramount.</p>
+<p><code>usincometaxes</code>s <a href="https://www.shaneorr.io/r/usincometaxes/news/index.html">changelog</a>
+will note when a version changes due to an update to the JavaScript /
+WebAssembly files. That way, you can check if you are using the version
+of <code>usincometaxes</code> with the most recent JavaScript /
+WebAssembly files and reinstall <code>usincometaxes</code> if this is
+not the case. As a reminder, the following code lets you check package
+versions: <code>packageVersion(&quot;usincometaxes&quot;)</code>.</p>
+</div>
+<div id="ssh" class="section level3">
+<h3>2. ‘ssh’</h3>
+<p>The ‘ssh’ <code>interface</code> option to
+<code>taxsim_calculate_taxes()</code> connects to the TAXSIM 35 server
+via ssh, sends the data to the server, and retrieves the output with
+calculated taxes via standard output. SSH must be installed on your
+operating system to use this option. If you use the ‘ssh’ option and SSH
+is not installed on your computer, you will receive an informative error
+telling you this fact. Because of this, there is no need to check
+whether SSH is installed prior to using; but you can do so with the
+following R command: <code>Sys.which(&#39;ssh&#39;)</code>.</p>
+<p>Standard port 22 is used to connect via SSH. There is a chance that
+SSH port 22 is blocked via a firewall. In this case,
+<code>taxsim_calculate_taxes()</code> will return an error that starts:
+“Error: There was a problem in calculating the taxes using ‘ssh’.”. Note
+that this error could represent a variety of problems, one of which is
+that a connection cannot be established with the NBER server vai SSH.
+But, the error might also mean that problems arose when the NBER’s
+server attempted to calculate taxes.</p>
+<p>Using ‘ssh’ ensures that you are working with the most up to date
+version of TAXSIM 35, regardless of when you installed
+<code>usincometaxes</code>. With ‘ssh’ the good news is that you will
+always be using the most up to date TAXSIM 35 version, the bad news is
+that there is an off chance you will see slightly different results
+through time. Thus, ‘ssh’ may not always provide reproducible results.
+Finally, ‘ssh’ is slower than ‘wasm’ since you are sending data to, and
+retrieving data from, a server.</p>
+</div>
+<div id="http" class="section level3">
+<h3>3. ‘http’</h3>
+<p>‘http’ uses <code>curl</code> to send and retrieve the data from the
+TAXSIM 35 server via https. Since calculations are conducted remotely,
+‘http’ has the advantages and disadvantages of ‘ssh’: you are using the
+most up to date version of TAXSIM 35 (advantage), which may prevent
+results from being the exact same through time (disadvantage).</p>
+<p>With ‘http’, data sets are limited to 2,000 rows. You will receive an
+error if you use ‘http’ on a data set with more than 2,000 rows.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
