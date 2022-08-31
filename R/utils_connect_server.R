@@ -181,13 +181,12 @@ calculate_taxes_http <- function(.data, to_taxsim_tmp_filename) {
     body = list(txpydata.raw = httr::upload_file(to_taxsim_tmp_filename)))
 
   # extract response body as to text
-  response_text <- httr::content(http_response, as = 'text')
+  response_text <- httr::content(http_response, as = 'text', type = 'text/plain', encoding = "UTF-8")
 
-  # convert text to a tibble to match vroom format
-  from_taxsim <- tibble::tibble(
-    utils::read.table(text = response_text,
-                      header = T,
-                      sep = ","))
+  # remove trailing commas in output
+  response_text <- gsub("[,](?=\\n)", "", response_text, perl = TRUE)
+
+  from_taxsim <- vroom::vroom(I(response_text), show_col_types = FALSE)
 
   return(from_taxsim)
 
