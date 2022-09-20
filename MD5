@@ -1,7 +1,7 @@
-c9ba53bb8a045cfeb7f4d6f9095e6546 *DESCRIPTION
+20568e9906984bab9b50bf1735f018ec *DESCRIPTION
 fae449f10bc2cf77488658fe2fc88dac *LICENSE
 d903fc8c930272d040c9f704fb7f48ff *NAMESPACE
-3f6c7ea6465af2029afa3337336c3796 *NEWS.md
+80cf20fd4a28fbc1f0207fe08f42445e *NEWS.md
 d89bbf0a908074746e4f567480b4be66 *R/calculate_taxes.R
 0ce335e15d61f5932333e300ab30b12c *R/data.R
 b8cf1effbb779b1bd9619654340d6f43 *R/sysdata.rda
@@ -55,7 +55,7 @@ a246c813971c91280cf9695341b84ab3 *man/from_taxsim_cols.Rd
 bdd45221e1997f59ca5e106916a74ffb *man/taxsim_cols.Rd
 87d1c688349fdee204bd97436ad190eb *man/usincometaxes.Rd
 7a7c8496b3ab3c2b2ea86a6583da463f *tests/testthat.R
-001024813046f2a6325dde8a59025b01 *tests/testthat/test-calculate_taxes.R
+39f8476aff7b6a52733c47ac0ed79c6b *tests/testthat/test-calculate_taxes.R
 2205ee050416ab38e5c7ebc23df992ac *tests/testthat/test-check_data.R
 29cb749ea1bdd10308d65ea33aa98181 *vignettes/interface-options.Rmd
 0a4e702ab824f0ad6b502e511f7f5141 *vignettes/send-data-to-taxsim.Rmd
