@@ -1,6 +1,6 @@
 Package: usincometaxes
 Title: Calculate Federal and State Income Taxes in the United States
-Version: 0.5.2
+Version: 0.5.3
 Authors@R: c(
     person("Shane", "Orr", email = "shane.j.orr@gmail.com", role = c("aut", "cre", "cph")),
     person("Thomas", "Wells", email = "thomascwells@gmail.com", role = "ctb")
@@ -15,7 +15,7 @@ URL: https://github.com/shanejorr/usincometaxes,
         https://shaneorr.io/r/usincometaxes
 BugReports: https://github.com/shanejorr/usincometaxes/issues
 Depends: R (>= 3.1)
-Imports: datasets, vroom, httr, tibble, utils, V8
+Imports: datasets, vroom, httr, tibble, utils, V8, tidyselect
 Suggests: dplyr, ggplot2, knitr, rmarkdown, scales, testthat (>=
         3.0.0), tidyr, tools
 VignetteBuilder: knitr
@@ -24,9 +24,9 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.0
 NeedsCompilation: no
-Packaged: 2022-09-20 01:40:56 UTC; shane
+Packaged: 2022-10-08 20:16:28 UTC; shane.orr
 Author: Shane Orr [aut, cre, cph],
   Thomas Wells [ctb]
 Maintainer: Shane Orr <shane.j.orr@gmail.com>
 Repository: CRAN
-Date/Publication: 2022-09-20 08:10:02 UTC
+Date/Publication: 2022-10-08 20:30:03 UTC
