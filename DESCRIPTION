@@ -1,6 +1,6 @@
 Package: usincometaxes
 Title: Calculate Federal and State Income Taxes in the United States
-Version: 0.5.3
+Version: 0.5.4
 Authors@R: c(
     person("Shane", "Orr", email = "shane.j.orr@gmail.com", role = c("aut", "cre", "cph")),
     person("Thomas", "Wells", email = "thomascwells@gmail.com", role = "ctb")
@@ -24,9 +24,9 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.0
 NeedsCompilation: no
-Packaged: 2022-10-08 20:16:28 UTC; shane.orr
+Packaged: 2022-10-30 15:28:12 UTC; shane.orr
 Author: Shane Orr [aut, cre, cph],
   Thomas Wells [ctb]
 Maintainer: Shane Orr <shane.j.orr@gmail.com>
 Repository: CRAN
-Date/Publication: 2022-10-08 20:30:03 UTC
+Date/Publication: 2022-10-30 15:40:02 UTC
