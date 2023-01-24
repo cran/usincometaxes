@@ -13,7 +13,7 @@
 <meta name="author" content="Shane Orr" />
 
 
-<title>Interface Options for Calculating Taxes</title>
+<title>About the Web Assembly Interface</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -30,13 +30,13 @@ document.addEventListener('DOMContentLoaded', function(e) {
 </script>
 
 <style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
 
 
 
@@ -236,32 +236,17 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<h1 class="title toc-ignore">Interface Options for Calculating
-Taxes</h1>
+<h1 class="title toc-ignore">About the Web Assembly Interface</h1>
 <h4 class="author">Shane Orr</h4>
 
 
 
-<p>You calculate taxes with the <code>taxsim_calculate_taxes()</code>
-function. This function contains an <code>interface</code> parameter
-where you can specify how you want to interact with the NBER’s <a href="https://users.nber.org/~taxsim/taxsim35/">TAXSIM 35</a> program.
-All options use TAXSIM 35, they only differ in how you access the
-program. The <code>interface</code> parameter has three options: (1)
-‘wasm’, (2) ‘ssh’, and (3) ‘http’. All three options are outlined
-below.</p>
-<div id="wasm" class="section level3">
-<h3>1. ‘wasm’</h3>
-<p>‘wasm’, an abbreviation for WebAssembly, is the only option that runs
-the calculations locally on your computer. You do not have to connect to
-the TAXSIM 35 servers. For this reason, it is faster and more robust
-than the other methods: you don’t have to connect to a server, worry
-about firewalls, etc. The output <em>should</em> be the same as the
-options that connect to the TAXSIM 35 server directly. But, keep reading
-for why this might not always be the case.</p>
-<p>With ‘wasm’, the calculations are conducted by JavaScript /
-WebAssembly files that are part of the package. In other words, you get
-the files when you install the package. Interacting with the files is
-abstracted away so all you see are the tax calculations.</p>
+<p><code>usincometaxes</code> uses a JavaScript / WebAssembly version of
+TAXSIM 35 to calculate taxes. The JavaScript / WebAssembly files are
+part of the package. Therefore, you can calculate taxes without sending
+data to the TAXSIM server. The output <em>should</em> be the same as the
+output from the TAXSIM 35 server. But, keep reading for why this might
+not always be the case.</p>
 <p>The JavaScript / WebAssembly tooling comes from Aman Gupta Karmani’s
 great work that you can find in this GitHub repo: <a href="https://github.com/tmm1/taxsim.js" class="uri">https://github.com/tmm1/taxsim.js</a>. And while you’re
 checking out his work, don’t overlook his tax calculator web app at <a href="https://taxsim.app">taxsim.app</a>.</p>
@@ -272,11 +257,10 @@ these updated JavaScript / WebAssembly files into a new version of
 version of <code>usincometaxes</code> will always produce the same
 results when using ‘wasm’. This holds because a given version of
 <code>usincometaxes</code> will always use the exact same JavaScript /
-WebAssembly files to calculate taxes. This might not always be true with
-‘ssh’ or ‘http’ since the calculations are conducted on the NBER’s
-servers. Changes to the NBER’s TASXIM program running on these servers
-will not correlate with version changes to <code>usincometaxes</code>.
-Therefore, ‘wasm’ is a great option if reproducibility is paramount.</p>
+WebAssembly files to calculate taxes. You could see a slight discrepancy
+between <code>usincometaxes</code> and TAXSIM 35 if there is a lag from
+when TAXSIM 35 is updated to when the JavaScript / WebAssembly files are
+updated.</p>
 <p><code>usincometaxes</code>’s <a href="https://www.shaneorr.io/r/usincometaxes/news/index.html">changelog</a>
 will note when a version changes due to an update to the JavaScript /
 WebAssembly files. That way, you can check if you are using the version
@@ -284,45 +268,6 @@ of <code>usincometaxes</code> with the most recent JavaScript /
 WebAssembly files and reinstall <code>usincometaxes</code> if this is
 not the case. As a reminder, the following code lets you check package
 versions: <code>packageVersion(&quot;usincometaxes&quot;)</code>.</p>
-</div>
-<div id="ssh" class="section level3">
-<h3>2. ‘ssh’</h3>
-<p>The ‘ssh’ <code>interface</code> option to
-<code>taxsim_calculate_taxes()</code> connects to the TAXSIM 35 server
-via ssh, sends the data to the server, and retrieves the output with
-calculated taxes via standard output. SSH must be installed on your
-operating system to use this option. If you use the ‘ssh’ option and SSH
-is not installed on your computer, you will receive an informative error
-telling you this fact. Because of this, there is no need to check
-whether SSH is installed prior to using; but you can do so with the
-following R command: <code>Sys.which(&#39;ssh&#39;)</code>.</p>
-<p>Standard port 22 is used to connect via SSH. There is a chance that
-SSH port 22 is blocked via a firewall. In this case,
-<code>taxsim_calculate_taxes()</code> will return an error that starts:
-“Error: There was a problem in calculating the taxes using ‘ssh’.”. Note
-that this error could represent a variety of problems, one of which is
-that a connection cannot be established with the NBER server vai SSH.
-But, the error might also mean that problems arose when the NBER’s
-server attempted to calculate taxes.</p>
-<p>Using ‘ssh’ ensures that you are working with the most up to date
-version of TAXSIM 35, regardless of when you installed
-<code>usincometaxes</code>. With ‘ssh’ the good news is that you will
-always be using the most up to date TAXSIM 35 version, the bad news is
-that there is an off chance you will see slightly different results
-through time. Thus, ‘ssh’ may not always provide reproducible results.
-Finally, ‘ssh’ is slower than ‘wasm’ since you are sending data to, and
-retrieving data from, a server.</p>
-</div>
-<div id="http" class="section level3">
-<h3>3. ‘http’</h3>
-<p>‘http’ uses <code>curl</code> to send and retrieve the data from the
-TAXSIM 35 server via https. Since calculations are conducted remotely,
-‘http’ has the advantages and disadvantages of ‘ssh’: you are using the
-most up to date version of TAXSIM 35 (advantage), which may prevent
-results from being the exact same through time (disadvantage).</p>
-<p>With ‘http’, data sets are limited to 2,000 rows. You will receive an
-error if you use ‘http’ on a data set with more than 2,000 rows.</p>
-</div>
 
 
 
