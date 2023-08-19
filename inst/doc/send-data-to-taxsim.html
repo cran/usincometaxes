@@ -340,7 +340,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(usincometaxes)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(usincometaxes)</span></code></pre></div>
 <p><code>usincometaxes</code> sends data to the National Bureau of
 Economic Research’s (NBER) <a href="http://taxsim.nber.org/taxsim35/">TAXSIM 35</a> server. The data
 must meet TAXSIM 35’s requirements for data types and column names.
@@ -356,11 +356,11 @@ would to use <code>taxsim_calculate_taxes()</code>. For example, follow
 the formatting required for <a href="https://www.shaneorr.io/r/usincometaxes/articles/taxsim-input.html">input
 columns</a>. Then, supply the dataset to
 <code>create_dataset_for_taxsim()</code>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(taxpayer_finances)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>taxsim_dataset <span class="ot">&lt;-</span> <span class="fu">create_dataset_for_taxsim</span>(taxpayer_finances)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">head</span>(taxsim_dataset))</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">data</span>(taxpayer_finances)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>taxsim_dataset <span class="ot">&lt;-</span> <span class="fu">create_dataset_for_taxsim</span>(taxpayer_finances)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">head</span>(taxsim_dataset))</span></code></pre></div>
 <table>
 <colgroup>
 <col width="8%" />
@@ -515,9 +515,9 @@ columns</a>. Then, supply the dataset to
 recommended to use <code>readr::read_csv()</code> to write out the
 dataset. <code>write.csv</code> tends to pose issues. Also note that you
 can name the <code>.csv</code> file anything you wish.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>taxsim_filename <span class="ot">&lt;-</span> <span class="st">&#39;taxsim_dataset.csv&#39;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>vroom<span class="sc">::</span><span class="fu">vroom_write</span>(taxsim_dataset, taxsim_filename)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>taxsim_filename <span class="ot">&lt;-</span> <span class="st">&#39;taxsim_dataset.csv&#39;</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>vroom<span class="sc">::</span><span class="fu">vroom_write</span>(taxsim_dataset, taxsim_filename)</span></code></pre></div>
 <p>Now, manually upload the file <code>taxsim_dataset.csv</code> to
 TAXSIM 35’s server by going to (<a href="https://taxsim.nber.org/taxsim35/" class="uri">https://taxsim.nber.org/taxsim35/</a>), navigating to the
 section titled ‘OR…Upload a (not too large) file with TAXSIM data:’, and
